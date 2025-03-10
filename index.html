@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday cherry</title>
+    <link rel="icon" type="image/x-icon" href="src/iconfav/favicon-32x32.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #000;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .box {
+            background-color: white;
+            padding: 50px 100px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: scale(0.8);
+            animation: fadeIn 1.5s ease-in-out forwards;
+            position: relative;
+            z-index: 2;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .box h1 {
+            font-size: 2rem;
+            color: #ff4d6d;
+            text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.2);
+        }
+        .candle {
+            width: 10px;
+            height: 40px;
+            background-color: #ff4d6d;
+            position: absolute;
+            bottom: -20px;
+        }
+        .flame {
+            width: 10px;
+            height: 20px;
+            background-color: yellow;
+            border-radius: 50% 50% 0 0;
+            position: absolute;
+            bottom: 40px;
+            box-shadow: 0 0 20px 10px yellow;
+            animation: flicker 0.1s infinite alternate;
+        }
+        @keyframes flicker {
+            0% { transform: scale(1.1); background-color: orange; box-shadow: 0 0 30px 15px orange; }
+            100% { transform: scale(0.9); background-color: yellow; box-shadow: 0 0 20px 10px yellow; }
+        }
+        .btn {
+            margin-top: 20px;
+            padding: 15px 40px;
+            background-image: linear-gradient(45deg, #ff4d6d, #9b59b6);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+        }
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 30px 50px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .modal-btn {
+            padding: 10px 30px;
+            background-color: #ff4d6d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="particleCanvas"></canvas>
+
+<div class="box">
+    <h1>Happy Birthday My Love ❤️ Cherry
+    </h1>
+    <div class="candle" style="left: 30px;">
+        <div class="flame"></div>
+    </div>
+    <div class="candle" style="right: 30px;">
+        <div class="flame"></div>
+    </div>
+    <button class="btn" onclick="openModal()">Let's Go ✨</button>
+</div>
+
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <h2>Are You Ready for a Surprise? 💖</h2>
+        <button class="modal-btn" onclick="redirect()">Yes 💕</button>
+    </div>
+</div>
+
+<script>
+    function openModal() {
+        document.getElementById('modal').style.display = 'flex';
+    }
+    function redirect() {
+        window.location.href = 'surprise.html';
+    }
+
+    class PointerParticles {
+        constructor(spread, speed, component) {
+            const { ctx, pointer, hue } = component;
+            this.ctx = ctx;
+            this.x = pointer.x;
+            this.y = pointer.y;
+            this.mx = pointer.mx * 0.1;
+            this.my = pointer.my * 0.1;
+            this.size = Math.random() * 3 + 1;
+            this.decay = 0.01;
+            this.speed = speed * 0.08;
+            this.spreadX = (Math.random() - 0.5) * spread * this.speed - this.mx;
+            this.spreadY = (Math.random() - 0.5) * spread * this.speed - this.my;
+            this.color = `hsl(${hue}, 90%, 60%)`;
+        }
+
+        draw() {
+            this.ctx.fillStyle = this.color;
+            this.ctx.beginPath();
+            this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            this.ctx.fill();
+        }
+
+        collapse() {
+            this.size -= this.decay;
+        }
+
+        trail() {
+            this.x += this.spreadX * this.size;
+            this.y += this.spreadY * this.size;
+        }
+
+        update() {
+            this.draw();
+            this.trail();
+            this.collapse();
+        }
+    }
+
+    class ParticleSystem {
+        constructor() {
+            this.canvas = document.getElementById('particleCanvas');
+            this.ctx = this.canvas.getContext('2d');
+            this.pointer = { x: 0, y: 0, mx: 0, my: 0 };
+            this.particles = [];
+            this.hue = 0;
+
+            this.resizeCanvas();
+            this.initListeners();
+            this.animate();
+        }
+
+        resizeCanvas() {
+            this.canvas.width = window.innerWidth;
+            this.canvas.height = window.innerHeight;
+        }
+
+        initListeners() {
+            window.addEventListener('mousemove', (e) => {
+                this.pointer.mx = e.movementX;
+                this.pointer.my = e.movementY;
+                this.pointer.x = e.clientX;
+                this.pointer.y = e.clientY;
+                this.spawnParticles();
+            });
+
+            window.addEventListener('resize', () => this.resizeCanvas());
+        }
+
+        spawnParticles() {
+            for (let i = 0; i < 5; i++) {
+                this.particles.push(new PointerParticles(20, 3, this));
+            }
+        }
+
+        clearCanvas() {
+            this.ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        }
+
+        animate() {
+            this.clearCanvas();
+            this.hue += 0.5;
+
+            this.particles.forEach((particle, index) => {
+                particle.update();
+                if (particle.size <= 0.1) {
+                    this.particles.splice(index, 1);
+                }
+            });
+
+            requestAnimationFrame(() => this.animate());
+        }
+    }
+
+    new ParticleSystem();
+</script>
+
+</body>
+</html>

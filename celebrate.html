@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="src/iconfav/favicon-32x32.png">
+    <title>Happy Birthday My Love ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #121212;
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .letter-box {
+            background-color: #fce4ec;
+            border: 2px solid #e91e63;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .letter-box h2 {
+            color: #e91e63;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .letter-box p {
+            color: #333;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .party-button {
+            background-color: #e91e63;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 20px;
+            font-size: 20px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .party-button:hover {
+            background-color: #d81b60;
+            transform: scale(1.1);
+        }
+
+        .fireworks-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .firework {
+            position: absolute;
+            background-color: #ff4757;
+            border-radius: 50%;
+            width: 10px;
+            height: 10px;
+            opacity: 0;
+            animation: firework 1.5s linear;
+        }
+
+        @keyframes firework {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="letter-box">
+        <h2>Happy Birthday, My Dearest cherryyyyyyyyyyyyyyyyyyyy! ❤️</h2>
+        <p>
+            My dear sister, today is your special day, and I want you to know how much you mean to me. You have filled my life with endless love, joy, and support, and I am truly blessed to have you by my side.
+
+I promise to always stand by you, to celebrate your victories, and to lift you up in tough times. No matter what, we will always conquer life together, side by side. You are not just my sister—you are my forever best friend, my biggest inspiration, and my greatest blessing.
+        </p>
+        <p>
+            Every moment with you is precious, and I can't wait to create even more beautiful memories together. Wishing you a lifetime of happiness, success, and all the love your heart desires.
+        </p>
+        <button class="party-button" onclick="startCelebration()">Celebrate 🎉</button>
+    </div>
+</div>
+
+<div class="fireworks-container" id="fireworks-container"></div>
+
+<script>
+    function startCelebration() {
+        const audio = new Audio('https://www.soundjay.com/free-music/birthday-party.mp3');
+        audio.play();
+        launchFireworks();
+    }
+
+    function launchFireworks() {
+        for (let i = 0; i < 100; i++) {
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+            firework.style.left = Math.random() * 100 + 'vw';
+            firework.style.top = Math.random() * 100 + 'vh';
+            firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            document.getElementById('fireworks-container').appendChild(firework);
+
+            setTimeout(() => {
+                firework.remove();
+            }, 1500);
+        }
+    }
+</script>
+
+</body>
+</html>
