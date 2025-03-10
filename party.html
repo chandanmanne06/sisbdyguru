@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Surprise</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #121212;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Happy Birthday Text */
+        .birthday-text {
+            font-size: 50px;
+            font-weight: bold;
+            color: #ffcc00;
+            text-align: center;
+            text-shadow: 3px 3px 10px rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+        }
+
+        /* Cake & Candle */
+        .birthday-cake {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .cake-layer {
+            width: 250px;
+            height: 80px;
+            background-color: #FAD7A0;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .middle-layer {
+            width: 200px;
+            height: 80px;
+            margin-top: -20px;
+        }
+
+        .top-layer {
+            width: 150px;
+            height: 80px;
+            margin-top: -20px;
+        }
+
+        .candle {
+            width: 10px;
+            height: 40px;
+            background-color: white;
+            position: absolute;
+            top: -40px;
+            box-shadow: inset 0 -5px 0 #E74C3C;
+        }
+
+        .flame {
+            width: 15px;
+            height: 25px;
+            background-color: orange;
+            border-radius: 50%;
+            position: absolute;
+            top: -65px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 30px #f9a825;
+            animation: flameFlicker 0.2s infinite;
+        }
+
+        @keyframes flameFlicker {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.1); }
+        }
+
+        /* Button */
+        .button {
+            margin-top: 20px;
+        }
+
+        .button a {
+            background-color: #ff5722;
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            font-size: 22px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 3px 3px 10px rgba(255, 87, 34, 0.8);
+            transition: all 0.3s;
+        }
+
+        .button a:hover {
+            background-color: #e64a19;
+            transform: scale(1.1);
+        }
+
+        /* Birthday Message */
+        .birthday-message {
+            font-size: 40px;
+            font-weight: bold;
+            color: #ffcc00;
+            text-align: center;
+            text-shadow: 3px 3px 10px rgba(255, 255, 255, 0.8);
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="birthday-text">HAPPY BIRTHDAY!</div>
+   
+    <div class="birthday-message" id="message">Happy 21st Birthday, Cherry Garu! 🎉🎂</div>
+    <div class="button">
+        <a href="celebrate.html">Let's Go 🎉</a>
+    </div>
+
+    <script>
+        function showMessage() {
+            document.getElementById("message").style.display = "block";
+        }
+    </script>
+</body>
+</html>
